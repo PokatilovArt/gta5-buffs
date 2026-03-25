@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Alt:V server binaries
+altv-server*
+libnode*
+update.cfg
+data/
+modules/
+cache/
+.server-crashes-cache/
+
+# IDE
+.vscode/
+.claude/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.*

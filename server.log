@@ -1,0 +1,26 @@
+[15:39:01] alt:V Server 16.4.39 (release)
+[15:39:02] Starting GTA5 Buffs RP on [::]:7788
+[15:39:03] Creating and archiving resources
+[15:39:03] Creation and archiving resources completed
+[15:39:03] Starting resources
+[15:39:03] Start of resources is completed
+[15:39:03] Required server permissions:
+[15:39:03] Optional server permissions:
+[15:39:03] Starting HTTP server on [::]:7788
+[15:39:03] Main thread started (ThreadId: 17448)
+[15:39:03] SyncSend thread started (ThreadId: 17712)
+[15:39:03] SyncSend thread started (ThreadId: 17600)
+[15:39:03] NetworkWorker #1 thread started (ThreadId: 17560)
+[15:39:03] SyncSend thread started (ThreadId: 17676)
+[15:39:03] SyncSend thread started (ThreadId: 17472)
+[15:39:03] SyncSend thread started (ThreadId: 17736)
+[15:39:03] SyncSend thread started (ThreadId: 17732)
+[15:39:03] SyncReceive thread started (ThreadId: 8972)
+[15:39:03] SyncReceive thread started (ThreadId: 17752)
+[15:39:03] SyncReceive thread started (ThreadId: 13352)
+[15:39:03] SyncSend thread started (ThreadId: 17612)
+[15:39:03] SyncReceive thread started (ThreadId: 17464)
+[15:39:03] SyncSend thread started (ThreadId: 17628)
+[15:39:03] EntityStreamer thread started (ThreadId: 17608)
+[15:39:03] Console thread started (ThreadId: 14628)
+[15:39:03][Warning] Server started in debug mode

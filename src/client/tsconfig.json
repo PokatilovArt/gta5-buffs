@@ -1,0 +1,8 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "types": ["@altv/client", "@altv/shared"]
+  },
+  "include": ["**/*.ts", "../common/**/*.ts"],
+  "exclude": ["../../node_modules", "../../dist"]
+}
