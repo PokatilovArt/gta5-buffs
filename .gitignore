@@ -12,6 +12,7 @@ data/
 modules/
 cache/
 .server-crashes-cache/
+server.log
 
 # IDE
 .vscode/
