@@ -1,4 +1,4 @@
 export enum BuffReapplyType {
-    Stack = 'Stack',
-    RestartDuration = 'RestartDuration',
+  Stack = 'Stack',
+  RestartDuration = 'RestartDuration',
 }

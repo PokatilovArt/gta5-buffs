@@ -11,7 +11,7 @@ export const BuffHandlerRegistry = new Map<
   }
 >();
 
-export function PlayerEffectApplicable(buffType: BuffType, buffEntityType: BuffEntityType) {
+export function BuffHandle(buffType: BuffType, buffEntityType: BuffEntityType) {
   return (target: Newable): void => {
     Injectable()(target);
 

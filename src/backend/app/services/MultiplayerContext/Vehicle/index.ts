@@ -1,1 +1,1 @@
-export * from './DefaultVehicle.repository';
+export * from './AltVVehicle.repository';

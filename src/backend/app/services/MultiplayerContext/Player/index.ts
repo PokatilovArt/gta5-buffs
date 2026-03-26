@@ -1,2 +1,2 @@
-export * from './DefaultPlayer.repository';
+export * from './AltVPlayer.repository';
 export * from './DefaultPlayer.service';

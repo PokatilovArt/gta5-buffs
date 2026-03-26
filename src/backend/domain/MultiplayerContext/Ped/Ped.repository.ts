@@ -1,5 +1,5 @@
-import { Ped } from "@altv/server";
-import { MultiplayerRepository } from "../Multiplayer.repository";
+import { Ped } from '@altv/server';
+import { MultiplayerRepository } from '../Multiplayer.repository';
 
 export interface PedRepository extends MultiplayerRepository<Ped> {}
 

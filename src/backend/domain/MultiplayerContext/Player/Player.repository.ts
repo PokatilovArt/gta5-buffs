@@ -1,5 +1,5 @@
-import { Player } from "@altv/server";
-import { MultiplayerRepository } from "../Multiplayer.repository";
+import { Player } from '@altv/server';
+import { MultiplayerRepository } from '../Multiplayer.repository';
 
 export interface PlayerRepository extends MultiplayerRepository<Player> {}
 

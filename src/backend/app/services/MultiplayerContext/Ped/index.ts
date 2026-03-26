@@ -1,1 +1,1 @@
-export * from './DefaultPed.repository';
+export * from './AltVPed.repository';

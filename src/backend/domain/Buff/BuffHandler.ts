@@ -1,7 +1,8 @@
-import { BuffEntity } from "./BuffEntity";
+import { BuffEntity } from './BuffEntity';
 
 export interface BuffHandler {
-    apply(entity: BuffEntity): void;
-    remove(entity: BuffEntity): void;
-    increaseIntensity(entity: BuffEntity): void;
+  onApply(entity: BuffEntity, stackCount: number): void;
+  onRemove(entity: BuffEntity): void;
+  onTick(): void;
+  onStackUpdate(entity: BuffEntity, stackCount: number): void;
 }

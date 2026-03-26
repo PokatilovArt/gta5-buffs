@@ -1,22 +1,22 @@
-import { Controller, Inject, Interval, On } from '@altv-mango/server';
-import { BUFF_CHECK_INTERVAL, BuffService } from '@backend/domain';
+import { Controller, EveryTick, Inject, Interval, On } from '@altv-mango/server';
+import { BuffService } from '@backend/domain';
 
 @Controller()
 export class BuffController {
-    constructor(@Inject(BuffService) private readonly buffService: BuffService) {}
+  constructor(@Inject(BuffService) private readonly buffService: BuffService) {}
 
-    @On('playerConnect')
-    public onPlayerConnect(): void {
-        // this.playerService.onConnect();
-    }
+  @On('playerConnect')
+  public onPlayerConnect(): void {
+    // this.playerService.onConnect();
+  }
 
-    @On('playerDisconnect')
-    public onPlayerDisconnect(): void {
-        // this.playerService.onDisconnect();
-    }
+  @On('playerDisconnect')
+  public onPlayerDisconnect(): void {
+    // this.playerService.onDisconnect();
+  }
 
-    @Interval(BUFF_CHECK_INTERVAL)
-    public checkBuffs(): void {
-        this.buffService.checkBuffs();
-    }
+  @EveryTick()
+  public tickBuffs(): void {
+    this.buffService.tickBuffs();
+  }
 }

@@ -2,15 +2,15 @@ import { Controller, Inject, On } from '@altv-mango/server';
 
 @Controller()
 export class PlayerController {
-    // constructor(@Inject(PlayerService) private readonly playerService: PlayerService) {}
+  // constructor(@Inject(PlayerService) private readonly playerService: PlayerService) {}
 
-    @On('playerConnect')
-    public onPlayerConnect(): void {
-        // this.playerService.onConnect();
-    }
+  @On('playerConnect')
+  public onPlayerConnect(): void {
+    // this.playerService.onConnect();
+  }
 
-    @On('playerDisconnect')
-    public onPlayerDisconnect(): void {
-        // this.playerService.onDisconnect();
-    }
+  @On('playerDisconnect')
+  public onPlayerDisconnect(): void {
+    // this.playerService.onDisconnect();
+  }
 }
