@@ -16,11 +16,13 @@
     "noEmit": true,
     "resolveJsonModule": true,
     "allowImportingTsExtensions": true,
+    "types": ["@altv/types-shared"],
     "baseUrl": ".",
     "paths": {
       "@backend/*": ["src/backend/*"],
       "@client/*": ["src/client/*"],
-      "@common/*": ["src/common/*"]
+      "@common/*": ["src/common/*"],
+      "alt-shared": ["node_modules/@altv/types-shared"]
     }
   },
   "exclude": ["node_modules", "dist"]

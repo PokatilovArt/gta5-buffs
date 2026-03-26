@@ -1,9 +1,14 @@
 import { Module } from '@altv-mango/server';
 import { PlayerController } from './controllers/Player.controller';
-import { PlayerService } from './services/Player.service';
+import { BuffController } from './controllers';
 
 @Module({
-    controllers: [PlayerController],
-    providers: [PlayerService],
+    controllers: [
+        BuffController,
+        PlayerController
+    ],
+    providers: [
+        // PlayerService
+    ],
 })
 export class AppModule {}
