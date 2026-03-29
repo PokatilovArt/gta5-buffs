@@ -1,4 +1,4 @@
 type = "js"
-main = "dist/server/index.js"
-client-main = "dist/client/index.js"
-client-files = ["dist/client/*"]
+main = "server/index.js"
+client-main = "client/index.js"
+client-files = ["client/*"]

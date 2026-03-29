@@ -1,12 +1,11 @@
 import { BuffEntity, BuffHandler, PlayerRepository } from '@backend/domain';
-import { BuffType } from '@common/types';
+import { BaseObjectType, BuffType } from '@common/types';
 import { BuffHandle } from '../../../../decorators';
-import { Enums as altEnums } from '@altv/shared';
 import { Inject } from '@altv-mango/core';
 
 type playerId = number;
 
-@BuffHandle(BuffType.Invisible, altEnums.BaseObjectType.PLAYER)
+@BuffHandle(BuffType.Invisible, BaseObjectType.PLAYER)
 export class PlayerInvisibleBuffHandler implements BuffHandler {
   private readonly invisibleMap = new Set<playerId>();
 
@@ -16,7 +15,7 @@ export class PlayerInvisibleBuffHandler implements BuffHandler {
   ) {}
 
   public onApply(entity: BuffEntity, stackCount: number): void {
-    if (entity.type !== altEnums.BaseObjectType.PLAYER) {
+    if (entity.type !== BaseObjectType.PLAYER) {
       throw new Error(
         `Entity type ${entity.type} is not supported for ${PlayerInvisibleBuffHandler.name}`,
       );

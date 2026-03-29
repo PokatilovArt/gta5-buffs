@@ -10,8 +10,7 @@ import {
   PlayerRepository,
   VehicleRepository,
 } from '@backend/domain';
-import { BuffEntityType, BuffReapplyType, BuffType } from '@common/types';
-import { Enums as altEnums } from '@altv/shared';
+import { BaseObjectType, BuffEntityType, BuffReapplyType, BuffType } from '@common/types';
 import { Container } from 'inversify';
 import { BuffUtils } from '@common/utils';
 import { BuffHandlerRegistry } from '../../decorators';
@@ -19,9 +18,9 @@ import { BuffHandlerRegistry } from '../../decorators';
 @Injectable()
 export class DefaultBuffService implements BuffService {
   private buffEntityHandlers: Record<BuffEntityType, Map<number, BuffTypeObjectMap>> = {
-    [altEnums.BaseObjectType.PLAYER]: new Map(),
-    [altEnums.BaseObjectType.VEHICLE]: new Map(),
-    [altEnums.BaseObjectType.PED]: new Map(),
+    [BaseObjectType.PLAYER]: new Map(),
+    [BaseObjectType.VEHICLE]: new Map(),
+    [BaseObjectType.PED]: new Map(),
   };
 
   constructor(
@@ -103,11 +102,11 @@ export class DefaultBuffService implements BuffService {
   }
 
   private findBuffTypeObjectMap(entity: BuffEntity): BuffTypeObjectMap | null {
-    return this.buffEntityHandlers[entity.type]?.get(entity.id) || null;
+    return this.buffEntityHandlers[entity.type as BaseObjectType]?.get(entity.id) || null;
   }
 
   public getBuffs(entity: BuffEntity): BuffType[] {
-    const entityBuffs = this.buffEntityHandlers[entity.type]?.get(entity.id);
+    const entityBuffs = this.buffEntityHandlers[entity.type as BaseObjectType]?.get(entity.id);
     if (entityBuffs) {
       return Array.from(entityBuffs.keys());
     }
@@ -145,13 +144,13 @@ export class DefaultBuffService implements BuffService {
 
   private getBuffEntity(entityType: BuffEntityType, id: number): BuffEntity | null {
     switch (entityType) {
-      case altEnums.BaseObjectType.PLAYER:
+      case BaseObjectType.PLAYER:
         return this.playerRepository.findById(id);
 
-      case altEnums.BaseObjectType.VEHICLE:
+      case BaseObjectType.VEHICLE:
         return this.vehicleRepository.findById(id);
 
-      case altEnums.BaseObjectType.PED:
+      case BaseObjectType.PED:
         return this.pedRepository.findById(id);
     }
   }

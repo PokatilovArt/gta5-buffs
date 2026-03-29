@@ -1,10 +1,10 @@
 import { Injectable } from '@altv-mango/server';
-import { Ped as altPed } from '@altv/server';
+import alt from 'alt-server';
 import { PedRepository } from '@backend/domain';
 
 @Injectable()
 export class AltVPedRepository implements PedRepository {
-    public findById(id: number): altPed | null {
-        return altPed.getByID(id);
+    public findById(id: number): alt.Ped | null {
+        return alt.Ped.getByID(id);
     }
 }

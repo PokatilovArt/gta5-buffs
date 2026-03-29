@@ -1,13 +1,12 @@
 import { BuffEntity, BuffHandler, VehicleRepository } from '@backend/domain';
-import { BuffType } from '@common/types';
+import { BaseObjectType, BuffType } from '@common/types';
 import { BuffHandle } from '../../../../decorators';
-import { Enums as altEnums } from '@altv/shared';
 import { Inject } from '@altv-mango/core';
-import { Vehicle } from '@altv/server';
+import type { Vehicle } from '@altv/server';
 
 type vehicleId = number;
 
-@BuffHandle(BuffType.ElectroMagneticPulse, altEnums.BaseObjectType.VEHICLE)
+@BuffHandle(BuffType.ElectroMagneticPulse, BaseObjectType.VEHICLE)
 export class VehicleElectroMagneticPulseBuffHandler implements BuffHandler {
   private readonly electroMagneticPulseEntitiesMap = new Set<vehicleId>();
 
@@ -17,7 +16,7 @@ export class VehicleElectroMagneticPulseBuffHandler implements BuffHandler {
   ) {}
 
   public onApply(entity: BuffEntity, stackCount: number): void {
-    if (entity.type !== altEnums.BaseObjectType.VEHICLE) {
+    if (entity.type !== BaseObjectType.VEHICLE) {
       throw new Error(
         `Entity type ${entity.type} is not supported for ${VehicleElectroMagneticPulseBuffHandler.name}`,
       );

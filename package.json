@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "alt-srv": "npx altv-srv install release -d . -m server data js -o",
+    "alt-srv": "npx altv-pkg release",
     "build": "node scripts/build.js",
     "build:watch": "node scripts/build.js --watch",
     "build:server": "node scripts/build.js --server",
@@ -17,13 +17,11 @@
     "reflect-metadata": "^0.2.2"
   },
   "devDependencies": {
+    "@altv-vchat/types": "^1.0.5",
     "@altv/client": "^0.0.34",
     "@altv/natives": "^0.0.8",
     "@altv/server": "^0.0.40",
     "@altv/shared": "^0.0.16",
-    "@altv/types-client": "^16.2.2",
-    "@altv/types-server": "^16.2.1",
-    "@altv/types-shared": "^16.2.1",
     "altv-esbuild": "^0.9.3",
     "altv-pkg": "^2.16.0",
     "esbuild": "^0.25.0",

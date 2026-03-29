@@ -5,9 +5,8 @@ import {
   BuffHandler,
   PlayerRepository,
 } from '@backend/domain';
-import { BuffType } from '@common/types';
+import { BaseObjectType, BuffType } from '@common/types';
 import { BuffHandle } from '../../../../decorators';
-import { Enums as altEnums } from '@altv/shared';
 import { Inject } from '@altv-mango/core';
 
 type playerId = number;
@@ -16,7 +15,7 @@ interface RegenerationObject {
   regenerateValue: number;
 }
 
-@BuffHandle(BuffType.ArmorRegeneration, altEnums.BaseObjectType.PLAYER)
+@BuffHandle(BuffType.ArmorRegeneration, BaseObjectType.PLAYER)
 export class PlayerArmorRegenerationBuffHandler implements BuffHandler {
   private readonly regenerateInterval = BUFF_ARMOR_REGENERATION_PERIOD;
   private readonly regenerateValuePerInterval = BUFF_ARMOR_REGENERATION_AMOUNT;
@@ -28,7 +27,7 @@ export class PlayerArmorRegenerationBuffHandler implements BuffHandler {
   ) {}
 
   public onApply(entity: BuffEntity, stackCount: number): void {
-    if (entity.type !== altEnums.BaseObjectType.PLAYER) {
+    if (entity.type !== BaseObjectType.PLAYER) {
       throw new Error(
         `Entity type ${entity.type} is not supported for ${PlayerArmorRegenerationBuffHandler.name}`,
       );

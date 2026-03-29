@@ -1,6 +1,6 @@
-import { Ped } from '@altv/server';
+import alt from 'alt-server';
 import { MultiplayerRepository } from '../Multiplayer.repository';
 
-export interface PedRepository extends MultiplayerRepository<Ped> {}
+export interface PedRepository extends MultiplayerRepository<alt.Ped> {}
 
 export const PedRepository: unique symbol = Symbol('PedRepository');

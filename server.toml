@@ -6,5 +6,4 @@ debug = true
 spawnAfterConnect = true
 announce = false
 modules = ["js-module"]
-# resources = ["gta5-buffs"]
-resources = []
+resources = ["gta5-buffs", "vchat"]

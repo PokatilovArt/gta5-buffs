@@ -1,4 +1,4 @@
-import { Player } from '@altv/server';
+import type { Player } from '@altv/server';
 import { BuffHandler } from './BuffHandler';
 import { BuffType } from '@common/types';
 import { BuffEntity } from './BuffEntity';

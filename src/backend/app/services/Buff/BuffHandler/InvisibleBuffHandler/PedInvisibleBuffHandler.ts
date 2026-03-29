@@ -1,12 +1,11 @@
 import { BuffEntity, BuffHandler, PedRepository } from '@backend/domain';
-import { BuffType } from '@common/types';
+import { BaseObjectType, BuffType } from '@common/types';
 import { BuffHandle } from '../../../../decorators';
-import { Enums as altEnums } from '@altv/shared';
 import { Inject } from '@altv-mango/core';
 
 type pedId = number;
 
-@BuffHandle(BuffType.Invisible, altEnums.BaseObjectType.PED)
+@BuffHandle(BuffType.Invisible, BaseObjectType.PED)
 export class PedInvisibleBuffHandler implements BuffHandler {
   private readonly invisibleMap = new Set<pedId>();
 
@@ -16,7 +15,7 @@ export class PedInvisibleBuffHandler implements BuffHandler {
   ) {}
 
   public onApply(entity: BuffEntity, stackCount: number): void {
-    if (entity.type !== altEnums.BaseObjectType.PED) {
+    if (entity.type !== BaseObjectType.PED) {
       throw new Error(
         `Entity type ${entity.type} is not supported for ${PedInvisibleBuffHandler.name}`,
       );

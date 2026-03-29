@@ -1,13 +1,12 @@
 import { BuffEntity, BuffHandler, VehicleRepository } from '@backend/domain';
-import { BuffType } from '@common/types';
+import { BaseObjectType, BuffType } from '@common/types';
 import { BuffHandle } from '../../../../decorators';
-import { Enums as altEnums } from '@altv/shared';
 import { Inject } from '@altv-mango/core';
-import { Vehicle } from '@altv/server';
+import type { Vehicle } from '@altv/server';
 
 type vehicleId = number;
 
-@BuffHandle(BuffType.Burning, altEnums.BaseObjectType.VEHICLE)
+@BuffHandle(BuffType.Burning, BaseObjectType.VEHICLE)
 export class VehicleBurningBuffHandler implements BuffHandler {
   private readonly burningVehiclesSet = new Set<vehicleId>();
 
@@ -17,7 +16,7 @@ export class VehicleBurningBuffHandler implements BuffHandler {
   ) {}
 
   public onApply(entity: BuffEntity, stackCount: number): void {
-    if (entity.type !== altEnums.BaseObjectType.VEHICLE) {
+    if (entity.type !== BaseObjectType.VEHICLE) {
       throw new Error(
         `Entity type ${entity.type} is not supported for ${VehicleBurningBuffHandler.name}`,
       );

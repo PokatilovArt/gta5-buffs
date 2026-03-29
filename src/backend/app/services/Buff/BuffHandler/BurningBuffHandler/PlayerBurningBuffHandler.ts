@@ -5,15 +5,14 @@ import {
   BuffHandler,
   PlayerRepository,
 } from '@backend/domain';
-import { BuffType } from '@common/types';
+import { BaseObjectType, BuffType } from '@common/types';
 import { BuffHandle } from '../../../../decorators';
-import { Enums as altEnums } from '@altv/shared';
 import { Inject } from '@altv-mango/core';
-import { Player } from '@altv/server';
+import type { Player } from '@altv/server';
 
 type playerId = number;
 
-@BuffHandle(BuffType.Burning, altEnums.BaseObjectType.PLAYER)
+@BuffHandle(BuffType.Burning, BaseObjectType.PLAYER)
 export class PlayerBurningBuffHandler implements BuffHandler {
   private readonly burningInterval = BUFF_BURNING_PERIOD;
   private readonly hurtValuePerInterval = BUFF_BURNING_AMOUNT;
@@ -25,7 +24,7 @@ export class PlayerBurningBuffHandler implements BuffHandler {
   ) {}
 
   public onApply(entity: BuffEntity, stackCount: number): void {
-    if (entity.type !== altEnums.BaseObjectType.PLAYER) {
+    if (entity.type !== BaseObjectType.PLAYER) {
       throw new Error(
         `Entity type ${entity.type} is not supported for ${PlayerBurningBuffHandler.name}`,
       );

@@ -1,12 +1,12 @@
-import { Enums as altEnums } from '@altv/shared';
+import { BaseObjectType } from './BaseObjectType.enum';
 
 export type BuffEntityType =
-  | altEnums.BaseObjectType.PLAYER
-  | altEnums.BaseObjectType.VEHICLE
-  | altEnums.BaseObjectType.PED;
+  | BaseObjectType.PLAYER
+  | BaseObjectType.VEHICLE
+  | BaseObjectType.PED;
 
-export const buffEntityTypes = new Set<altEnums.BaseObjectType>([
-  altEnums.BaseObjectType.PLAYER,
-  altEnums.BaseObjectType.VEHICLE,
-  altEnums.BaseObjectType.PED,
+export const buffEntityTypes = new Set<BaseObjectType>([
+  BaseObjectType.PLAYER,
+  BaseObjectType.VEHICLE,
+  BaseObjectType.PED,
 ]);

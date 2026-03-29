@@ -16,13 +16,16 @@
     "noEmit": true,
     "resolveJsonModule": true,
     "allowImportingTsExtensions": true,
-    "types": ["@altv/types-shared"],
+    "types": ["@altv/types-server", "@altv/types-client", "@altv/types-shared", "@altv-vchat/types"],
     "baseUrl": ".",
     "paths": {
       "@backend/*": ["src/backend/*"],
       "@client/*": ["src/client/*"],
       "@common/*": ["src/common/*"],
-      "alt-shared": ["node_modules/@altv/types-shared"]
+      "alt-server": ["node_modules/@altv/types-server"],
+      "alt-client": ["node_modules/@altv/types-client"],
+      "alt-shared": ["node_modules/@altv/types-shared"],
+      "vchat": ["node_modules/@altv-vchat/types"]
     }
   },
   "exclude": ["node_modules", "dist"]

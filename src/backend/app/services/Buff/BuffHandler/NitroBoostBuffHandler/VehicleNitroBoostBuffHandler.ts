@@ -4,11 +4,10 @@ import {
   BuffHandler,
   VehicleRepository,
 } from '@backend/domain';
-import { BuffType } from '@common/types';
+import { BaseObjectType, BuffType } from '@common/types';
 import { BuffHandle } from '../../../../decorators';
-import { Enums as altEnums } from '@altv/shared';
 import { Inject } from '@altv-mango/core';
-import { Vehicle } from '@altv/server';
+import type { Vehicle } from '@altv/server';
 
 type vehicleId = number;
 interface NitroBoostObject {
@@ -16,7 +15,7 @@ interface NitroBoostObject {
   initialAccelerationLevel: number;
 }
 
-@BuffHandle(BuffType.NitroBoost, altEnums.BaseObjectType.VEHICLE)
+@BuffHandle(BuffType.NitroBoost, BaseObjectType.VEHICLE)
 export class VehicleNitroBoostBuffHandler implements BuffHandler {
   private readonly nitroEngineMultiplier = BUFF_NITRO_BOOST_MULTIPLIER;
   private readonly nitroObjectMap = new Map<vehicleId, NitroBoostObject>();
@@ -27,7 +26,7 @@ export class VehicleNitroBoostBuffHandler implements BuffHandler {
   ) {}
 
   public onApply(entity: BuffEntity, stackCount: number): void {
-    if (entity.type !== altEnums.BaseObjectType.VEHICLE) {
+    if (entity.type !== BaseObjectType.VEHICLE) {
       throw new Error(
         `Entity type ${entity.type} is not supported for ${VehicleNitroBoostBuffHandler.name}`,
       );

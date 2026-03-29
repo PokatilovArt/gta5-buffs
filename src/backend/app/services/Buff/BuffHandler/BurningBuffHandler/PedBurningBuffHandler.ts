@@ -5,15 +5,14 @@ import {
   BuffHandler,
   PedRepository,
 } from '@backend/domain';
-import { BuffType } from '@common/types';
+import { BaseObjectType, BuffType } from '@common/types';
 import { BuffHandle } from '../../../../decorators';
-import { Enums as altEnums } from '@altv/shared';
 import { Inject } from '@altv-mango/core';
-import { Ped } from '@altv/server';
+import type { Ped } from '@altv/server';
 
 type pedId = number;
 
-@BuffHandle(BuffType.Burning, altEnums.BaseObjectType.PED)
+@BuffHandle(BuffType.Burning, BaseObjectType.PED)
 export class PedBurningBuffHandler implements BuffHandler {
   private readonly burningInterval = BUFF_BURNING_PERIOD;
   private readonly hurtValuePerInterval = BUFF_BURNING_AMOUNT;
@@ -25,7 +24,7 @@ export class PedBurningBuffHandler implements BuffHandler {
   ) {}
 
   public onApply(entity: BuffEntity, stackCount: number): void {
-    if (entity.type !== altEnums.BaseObjectType.PED) {
+    if (entity.type !== BaseObjectType.PED) {
       throw new Error(
         `Entity type ${entity.type} is not supported for ${PedBurningBuffHandler.name}`,
       );
