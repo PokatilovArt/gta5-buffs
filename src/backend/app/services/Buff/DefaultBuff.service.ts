@@ -57,14 +57,14 @@ export class DefaultBuffService implements BuffService {
           buffObject.activedBy = source;
         }
       } else {
-        const buffEntityType = BuffUtils.isBuffEntityType(entity.type);
+        const buffEntityType = BuffUtils.isBuffEntityType(entity.type as unknown as BuffEntityType);
         if (!buffEntityType) {
           throw new Error(`Entity with ${entity.type} is not supported for buffs`);
         }
 
         const buffHandlerRegistryKey = BuffUtils.getBuffEntityHandlerRegistryKey(
           buffType,
-          entity.type,
+          entity.type as unknown as BuffEntityType,
         );
         const serviceIdentifier =
           BuffHandlerRegistry.get(buffHandlerRegistryKey)?.serviceIdentifier;
@@ -102,11 +102,15 @@ export class DefaultBuffService implements BuffService {
   }
 
   private findBuffTypeObjectMap(entity: BuffEntity): BuffTypeObjectMap | null {
-    return this.buffEntityHandlers[entity.type as BaseObjectType]?.get(entity.id) || null;
+    return (
+      this.buffEntityHandlers[entity.type as unknown as BuffEntityType]?.get(entity.id) || null
+    );
   }
 
   public getBuffs(entity: BuffEntity): BuffType[] {
-    const entityBuffs = this.buffEntityHandlers[entity.type as BaseObjectType]?.get(entity.id);
+    const entityBuffs = this.buffEntityHandlers[entity.type as unknown as BuffEntityType]?.get(
+      entity.id,
+    );
     if (entityBuffs) {
       return Array.from(entityBuffs.keys());
     }

@@ -1,13 +1,13 @@
-import { BuffEntity, BuffHandler, VehicleRepository } from '@backend/domain';
+import { BuffEntity, BuffHandler as IBuffHandler, VehicleRepository } from '@backend/domain';
 import { BaseObjectType, BuffType } from '@common/types';
-import { BuffHandle } from '../../../../decorators';
+import { BuffHandler } from '../../../../decorators';
 import { Inject } from '@altv-mango/core';
 import type { Vehicle } from '@altv/server';
 
 type vehicleId = number;
 
-@BuffHandle(BuffType.Burning, BaseObjectType.VEHICLE)
-export class VehicleBurningBuffHandler implements BuffHandler {
+@BuffHandler(BuffType.Burning, BaseObjectType.VEHICLE)
+export class VehicleBurningBuffHandler implements IBuffHandler {
   private readonly burningVehiclesSet = new Set<vehicleId>();
 
   constructor(
@@ -24,13 +24,13 @@ export class VehicleBurningBuffHandler implements BuffHandler {
 
     this.burningVehiclesSet.add(entity.id);
 
-    this.applyBuffToVehicle(entity as Vehicle);
+    this.applyBuffToVehicle(entity as unknown as Vehicle);
   }
 
   public onRemove(entity: BuffEntity): void {
     if (this.burningVehiclesSet.has(entity.id)) {
       this.burningVehiclesSet.delete(entity.id);
-      this.removeBuffFromVehicle(entity as Vehicle);
+      this.removeBuffFromVehicle(entity as unknown as Vehicle);
     }
   }
 

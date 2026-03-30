@@ -2,11 +2,11 @@ import {
   BUFF_ARMOR_REGENERATION_AMOUNT,
   BUFF_ARMOR_REGENERATION_PERIOD,
   BuffEntity,
-  BuffHandler,
+  BuffHandler as IBuffHandler,
   PlayerRepository,
 } from '@backend/domain';
 import { BaseObjectType, BuffType } from '@common/types';
-import { BuffHandle } from '../../../../decorators';
+import { BuffHandler } from '../../../../decorators';
 import { Inject } from '@altv-mango/core';
 
 type playerId = number;
@@ -15,8 +15,8 @@ interface RegenerationObject {
   regenerateValue: number;
 }
 
-@BuffHandle(BuffType.ArmorRegeneration, BaseObjectType.PLAYER)
-export class PlayerArmorRegenerationBuffHandler implements BuffHandler {
+@BuffHandler(BuffType.ArmorRegeneration, BaseObjectType.PLAYER)
+export class PlayerArmorRegenerationBuffHandler implements IBuffHandler {
   private readonly regenerateInterval = BUFF_ARMOR_REGENERATION_PERIOD;
   private readonly regenerateValuePerInterval = BUFF_ARMOR_REGENERATION_AMOUNT;
   private readonly regenerationObjectMap = new Map<playerId, RegenerationObject>();

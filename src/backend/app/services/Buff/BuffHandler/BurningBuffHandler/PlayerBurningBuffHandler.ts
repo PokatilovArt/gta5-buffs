@@ -2,18 +2,18 @@ import {
   BUFF_BURNING_AMOUNT,
   BUFF_BURNING_PERIOD,
   BuffEntity,
-  BuffHandler,
+  BuffHandler as IBuffHandler,
   PlayerRepository,
 } from '@backend/domain';
 import { BaseObjectType, BuffType } from '@common/types';
-import { BuffHandle } from '../../../../decorators';
+import { BuffHandler } from '../../../../decorators';
 import { Inject } from '@altv-mango/core';
 import type { Player } from '@altv/server';
 
 type playerId = number;
 
-@BuffHandle(BuffType.Burning, BaseObjectType.PLAYER)
-export class PlayerBurningBuffHandler implements BuffHandler {
+@BuffHandler(BuffType.Burning, BaseObjectType.PLAYER)
+export class PlayerBurningBuffHandler implements IBuffHandler {
   private readonly burningInterval = BUFF_BURNING_PERIOD;
   private readonly hurtValuePerInterval = BUFF_BURNING_AMOUNT;
   private readonly burningEntitiesMap = new Map<playerId, Date>();
@@ -35,13 +35,13 @@ export class PlayerBurningBuffHandler implements BuffHandler {
       this.burningEntitiesMap.set(entity.id, new Date(Date.now() + this.burningInterval));
     }
 
-    this.applyBuffToPlayer(entity as Player);
+    this.applyBuffToPlayer(entity as unknown as Player);
   }
 
   public onRemove(entity: BuffEntity): void {
     if (this.burningEntitiesMap.has(entity.id)) {
       this.burningEntitiesMap.delete(entity.id);
-      this.removeBuffFromPlayer(entity as Player);
+      this.removeBuffFromPlayer(entity as unknown as Player);
     }
   }
 

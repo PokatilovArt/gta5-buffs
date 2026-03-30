@@ -1,12 +1,12 @@
-import { BuffEntity, BuffHandler, PlayerRepository } from '@backend/domain';
-import { BaseObjectType, BuffType } from '@common/types';
-import { BuffHandle } from '../../../../decorators';
+import { BuffEntity, BuffHandler as IBuffHandler, PlayerRepository } from '@backend/domain';
+import { BaseObjectType, BuffType, StreamSyncedMetaType } from '@common/types';
+import { BuffHandler } from '../../../../decorators';
 import { Inject } from '@altv-mango/core';
 
 type playerId = number;
 
-@BuffHandle(BuffType.Invisible, BaseObjectType.PLAYER)
-export class PlayerInvisibleBuffHandler implements BuffHandler {
+@BuffHandler(BuffType.Invisible, BaseObjectType.PLAYER)
+export class PlayerInvisibleBuffHandler implements IBuffHandler {
   private readonly invisibleMap = new Set<playerId>();
 
   constructor(
@@ -26,6 +26,7 @@ export class PlayerInvisibleBuffHandler implements BuffHandler {
     const player = this.playerRepository.findById(entity.id);
     if (player) {
       player.visible = false;
+      player.setStreamSyncedMeta(StreamSyncedMetaType.Invisible, true);
     }
   }
 
@@ -35,6 +36,7 @@ export class PlayerInvisibleBuffHandler implements BuffHandler {
     const player = this.playerRepository.findById(entity.id);
     if (player) {
       player.visible = true;
+      player.deleteStreamSyncedMeta(StreamSyncedMetaType.Invisible);
     }
   }
 

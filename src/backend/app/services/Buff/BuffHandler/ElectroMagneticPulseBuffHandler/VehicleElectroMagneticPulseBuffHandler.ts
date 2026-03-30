@@ -1,13 +1,13 @@
-import { BuffEntity, BuffHandler, VehicleRepository } from '@backend/domain';
+import { BuffEntity, BuffHandler as IBuffHandler, VehicleRepository } from '@backend/domain';
 import { BaseObjectType, BuffType } from '@common/types';
-import { BuffHandle } from '../../../../decorators';
+import { BuffHandler } from '../../../../decorators';
 import { Inject } from '@altv-mango/core';
 import type { Vehicle } from '@altv/server';
 
 type vehicleId = number;
 
-@BuffHandle(BuffType.ElectroMagneticPulse, BaseObjectType.VEHICLE)
-export class VehicleElectroMagneticPulseBuffHandler implements BuffHandler {
+@BuffHandler(BuffType.ElectroMagneticPulse, BaseObjectType.VEHICLE)
+export class VehicleElectroMagneticPulseBuffHandler implements IBuffHandler {
   private readonly electroMagneticPulseEntitiesMap = new Set<vehicleId>();
 
   constructor(
@@ -23,13 +23,13 @@ export class VehicleElectroMagneticPulseBuffHandler implements BuffHandler {
     }
 
     this.electroMagneticPulseEntitiesMap.add(entity.id);
-    this.applyBuffToVehicle(entity as Vehicle);
+    this.applyBuffToVehicle(entity as unknown as Vehicle);
   }
 
   public onRemove(entity: BuffEntity): void {
     if (this.electroMagneticPulseEntitiesMap.has(entity.id)) {
       this.electroMagneticPulseEntitiesMap.delete(entity.id);
-      this.removeBuffFromVehicle(entity as Vehicle);
+      this.removeBuffFromVehicle(entity as unknown as Vehicle);
     }
   }
 

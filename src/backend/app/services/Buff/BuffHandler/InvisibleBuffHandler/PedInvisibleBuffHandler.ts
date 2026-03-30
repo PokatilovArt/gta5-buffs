@@ -1,12 +1,12 @@
-import { BuffEntity, BuffHandler, PedRepository } from '@backend/domain';
-import { BaseObjectType, BuffType } from '@common/types';
-import { BuffHandle } from '../../../../decorators';
+import { BuffEntity, BuffHandler as IBuffHandler, PedRepository } from '@backend/domain';
+import { BaseObjectType, BuffType, StreamSyncedMetaType } from '@common/types';
+import { BuffHandler } from '../../../../decorators';
 import { Inject } from '@altv-mango/core';
 
 type pedId = number;
 
-@BuffHandle(BuffType.Invisible, BaseObjectType.PED)
-export class PedInvisibleBuffHandler implements BuffHandler {
+@BuffHandler(BuffType.Invisible, BaseObjectType.PED)
+export class PedInvisibleBuffHandler implements IBuffHandler {
   private readonly invisibleMap = new Set<pedId>();
 
   constructor(
@@ -26,6 +26,7 @@ export class PedInvisibleBuffHandler implements BuffHandler {
     const ped = this.pedRepository.findById(entity.id);
     if (ped) {
       ped.visible = false;
+      ped.setStreamSyncedMeta(StreamSyncedMetaType.Invisible, true);
     }
   }
 
@@ -35,6 +36,7 @@ export class PedInvisibleBuffHandler implements BuffHandler {
     const ped = this.pedRepository.findById(entity.id);
     if (ped) {
       ped.visible = true;
+      ped.deleteStreamSyncedMeta(StreamSyncedMetaType.Invisible);
     }
   }
 

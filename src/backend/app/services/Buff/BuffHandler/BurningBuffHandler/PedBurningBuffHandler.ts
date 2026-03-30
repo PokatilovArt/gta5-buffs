@@ -2,18 +2,18 @@ import {
   BUFF_BURNING_AMOUNT,
   BUFF_BURNING_PERIOD,
   BuffEntity,
-  BuffHandler,
+  BuffHandler as IBuffHandler,
   PedRepository,
 } from '@backend/domain';
 import { BaseObjectType, BuffType } from '@common/types';
-import { BuffHandle } from '../../../../decorators';
+import { BuffHandler } from '../../../../decorators';
 import { Inject } from '@altv-mango/core';
 import type { Ped } from '@altv/server';
 
 type pedId = number;
 
-@BuffHandle(BuffType.Burning, BaseObjectType.PED)
-export class PedBurningBuffHandler implements BuffHandler {
+@BuffHandler(BuffType.Burning, BaseObjectType.PED)
+export class PedBurningBuffHandler implements IBuffHandler {
   private readonly burningInterval = BUFF_BURNING_PERIOD;
   private readonly hurtValuePerInterval = BUFF_BURNING_AMOUNT;
   private readonly burningEntitiesMap = new Map<pedId, Date>();
@@ -35,13 +35,13 @@ export class PedBurningBuffHandler implements BuffHandler {
       this.burningEntitiesMap.set(entity.id, new Date(Date.now() + this.burningInterval));
     }
 
-    this.applyBuffToPed(entity as Ped);
+    this.applyBuffToPed(entity as unknown as Ped);
   }
 
   public onRemove(entity: BuffEntity): void {
     if (this.burningEntitiesMap.has(entity.id)) {
       this.burningEntitiesMap.delete(entity.id);
-      this.removeBuffFromPed(entity as Ped);
+      this.removeBuffFromPed(entity as unknown as Ped);
     }
   }
 

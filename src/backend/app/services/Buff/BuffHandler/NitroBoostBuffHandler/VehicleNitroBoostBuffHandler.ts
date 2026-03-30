@@ -1,11 +1,11 @@
 import {
   BUFF_NITRO_BOOST_MULTIPLIER,
   BuffEntity,
-  BuffHandler,
+  BuffHandler as IBuffHandler,
   VehicleRepository,
 } from '@backend/domain';
 import { BaseObjectType, BuffType } from '@common/types';
-import { BuffHandle } from '../../../../decorators';
+import { BuffHandler } from '../../../../decorators';
 import { Inject } from '@altv-mango/core';
 import type { Vehicle } from '@altv/server';
 
@@ -15,8 +15,8 @@ interface NitroBoostObject {
   initialAccelerationLevel: number;
 }
 
-@BuffHandle(BuffType.NitroBoost, BaseObjectType.VEHICLE)
-export class VehicleNitroBoostBuffHandler implements BuffHandler {
+@BuffHandler(BuffType.NitroBoost, BaseObjectType.VEHICLE)
+export class VehicleNitroBoostBuffHandler implements IBuffHandler {
   private readonly nitroEngineMultiplier = BUFF_NITRO_BOOST_MULTIPLIER;
   private readonly nitroObjectMap = new Map<vehicleId, NitroBoostObject>();
 
@@ -32,7 +32,7 @@ export class VehicleNitroBoostBuffHandler implements BuffHandler {
       );
     }
 
-    const vehicleEntity = entity as Vehicle;
+    const vehicleEntity = entity as unknown as Vehicle;
 
     const existingNitroBoostObject = this.nitroObjectMap.get(entity.id);
     const boostMultiplier = Math.pow(this.nitroEngineMultiplier, stackCount);
@@ -51,7 +51,7 @@ export class VehicleNitroBoostBuffHandler implements BuffHandler {
   public onRemove(entity: BuffEntity): void {
     if (this.nitroObjectMap.has(entity.id)) {
       this.nitroObjectMap.delete(entity.id);
-      this.removeNitroBoostFromVehicle(entity as Vehicle);
+      this.removeNitroBoostFromVehicle(entity as unknown as Vehicle);
     }
   }
 
@@ -64,7 +64,7 @@ export class VehicleNitroBoostBuffHandler implements BuffHandler {
     existingNitroBoostObject.nitroBoost =
       existingNitroBoostObject.nitroBoost * Math.pow(this.nitroEngineMultiplier, stackCount);
 
-    this.applyNitroBoostToVehicle(entity as Vehicle, existingNitroBoostObject);
+    this.applyNitroBoostToVehicle(entity as unknown as Vehicle, existingNitroBoostObject);
   }
 
   public onTick(): void {
