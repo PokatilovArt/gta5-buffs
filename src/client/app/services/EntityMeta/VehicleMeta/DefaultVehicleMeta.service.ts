@@ -1,18 +1,33 @@
-import { Injectable } from '@altv-mango/core';
-import { VehicleMetaService } from '@client/domain';
+import { Inject, Injectable } from '@altv-mango/core';
+import { VehicleMetaService, VehicleService } from '@client/domain';
 import { StreamSyncedMetaType } from '@common/types';
 import * as alt from 'alt-client';
-import natives from '@altv/natives';
 
 @Injectable()
 export class DefaultVehicleMetaService implements VehicleMetaService {
-  constructor() {}
+  constructor(@Inject(VehicleService) private readonly vehicleService: VehicleService) {}
 
-  public applyMeta(vehicle: alt.Vehicle, metaKey: StreamSyncedMetaType, value: unknown): void {
-    console.log(`Apply to vehicle metaKey: ${metaKey}, value: ${value}`);
+  public applyMeta(
+    vehicle: alt.Vehicle,
+    metaKey: StreamSyncedMetaType,
+    value: unknown,
+    prevValue = 1,
+  ): void {
+    // console.log(`Apply to vehicle metaKey: ${metaKey}, value: ${value}`);
     switch (metaKey) {
       case StreamSyncedMetaType.ElectroMagneticPulse:
-        natives.setVehicleEngineOn(vehicle.scriptID, !value, true, !!value);
+        this.vehicleService.setEngineState(vehicle, !value, !!value);
+        this.vehicleService.setLightState(vehicle, !value);
+        this.vehicleService.setRadioState(vehicle, !value);
+        break;
+
+      case StreamSyncedMetaType.Nitro:
+        const newValue = typeof value === 'number' ? value : 1;
+        this.vehicleService.setAccelerationMultiplier(vehicle, newValue, prevValue);
+        break;
+
+      case StreamSyncedMetaType.Burning:
+        // todo: можно запустить анимацию на тачке
         break;
     }
   }

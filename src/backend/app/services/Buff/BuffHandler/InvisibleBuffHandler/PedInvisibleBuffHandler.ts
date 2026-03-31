@@ -2,6 +2,7 @@ import { BuffEntity, BuffHandler as IBuffHandler, PedRepository } from '@backend
 import { BaseObjectType, BuffType, StreamSyncedMetaType } from '@common/types';
 import { BuffHandler } from '../../../../decorators';
 import { Inject } from '@altv-mango/core';
+import * as alt from 'alt-server';
 
 type pedId = number;
 
@@ -15,7 +16,7 @@ export class PedInvisibleBuffHandler implements IBuffHandler {
   ) {}
 
   public onApply(entity: BuffEntity, stackCount: number): void {
-    if (entity.type !== BaseObjectType.PED) {
+    if (entity.type !== alt.BaseObjectType.Ped) {
       throw new Error(
         `Entity type ${entity.type} is not supported for ${PedInvisibleBuffHandler.name}`,
       );

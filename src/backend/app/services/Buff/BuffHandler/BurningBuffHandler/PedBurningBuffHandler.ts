@@ -5,10 +5,10 @@ import {
   BuffHandler as IBuffHandler,
   PedRepository,
 } from '@backend/domain';
-import { BaseObjectType, BuffType } from '@common/types';
+import { BaseObjectType, BuffType, StreamSyncedMetaType } from '@common/types';
 import { BuffHandler } from '../../../../decorators';
 import { Inject } from '@altv-mango/core';
-import type { Ped } from '@altv/server';
+import * as alt from 'alt-server';
 
 type pedId = number;
 
@@ -24,7 +24,7 @@ export class PedBurningBuffHandler implements IBuffHandler {
   ) {}
 
   public onApply(entity: BuffEntity, stackCount: number): void {
-    if (entity.type !== BaseObjectType.PED) {
+    if (entity.type !== alt.BaseObjectType.Ped) {
       throw new Error(
         `Entity type ${entity.type} is not supported for ${PedBurningBuffHandler.name}`,
       );
@@ -35,13 +35,13 @@ export class PedBurningBuffHandler implements IBuffHandler {
       this.burningEntitiesMap.set(entity.id, new Date(Date.now() + this.burningInterval));
     }
 
-    this.applyBuffToPed(entity as unknown as Ped);
+    this.applyBuffToPed(entity as alt.Ped);
   }
 
   public onRemove(entity: BuffEntity): void {
     if (this.burningEntitiesMap.has(entity.id)) {
       this.burningEntitiesMap.delete(entity.id);
-      this.removeBuffFromPed(entity as unknown as Ped);
+      this.removeBuffFromPed(entity as alt.Ped);
     }
   }
 
@@ -68,11 +68,11 @@ export class PedBurningBuffHandler implements IBuffHandler {
     }
   }
 
-  private applyBuffToPed(ped: Ped): void {
-    // todo: запустить анимацию огня
+  private applyBuffToPed(ped: alt.Ped): void {
+    ped.setStreamSyncedMeta(StreamSyncedMetaType.Burning, true);
   }
 
-  private removeBuffFromPed(ped: Ped): void {
-    // todo: остановить анимацию огня
+  private removeBuffFromPed(ped: alt.Ped): void {
+    ped.deleteStreamSyncedMeta(StreamSyncedMetaType.Burning);
   }
 }

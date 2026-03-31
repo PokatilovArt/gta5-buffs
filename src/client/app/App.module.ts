@@ -1,13 +1,27 @@
 import { Module } from '@altv-mango/client';
-import { PlayerService } from './services/Player.service';
-import { DefaultEntityMetaService, DefaultPedMetaService } from './services';
+import {
+  DefaultEntityMetaService,
+  DefaultPedMetaService,
+  DefaultPedService,
+  DefaultPlayerMetaService,
+  DefaultPlayerService,
+  DefaultVehicleMetaService,
+  DefaultVehicleService,
+} from './services';
 import { EntityMetaController, PlayerController } from './controllers';
-import { EntityMetaService, PedMetaService } from '@client/domain';
+import {
+  EntityMetaService,
+  PedMetaService,
+  PedService,
+  PlayerMetaService,
+  PlayerService,
+  VehicleMetaService,
+  VehicleService,
+} from '@client/domain';
 
 @Module({
   controllers: [PlayerController, EntityMetaController],
   providers: [
-    PlayerService,
     {
       provide: EntityMetaService,
       useClass: DefaultEntityMetaService,
@@ -15,6 +29,26 @@ import { EntityMetaService, PedMetaService } from '@client/domain';
     {
       provide: PedMetaService,
       useClass: DefaultPedMetaService,
+    },
+    {
+      provide: VehicleMetaService,
+      useClass: DefaultVehicleMetaService,
+    },
+    {
+      provide: PlayerMetaService,
+      useClass: DefaultPlayerMetaService,
+    },
+    {
+      provide: VehicleService,
+      useClass: DefaultVehicleService,
+    },
+    {
+      provide: PedService,
+      useClass: DefaultPedService,
+    },
+    {
+      provide: PlayerService,
+      useClass: DefaultPlayerService,
     },
   ],
 })

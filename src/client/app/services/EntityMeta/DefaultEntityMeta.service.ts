@@ -5,7 +5,7 @@ import {
   PlayerMetaService,
   VehicleMetaService,
 } from '@client/domain';
-import { BaseObjectType, StreamSyncedMetaType } from '@common/types';
+import { StreamSyncedMetaType } from '@common/types';
 import { EnumUtils } from '@common/utils';
 import * as alt from 'alt-client';
 
@@ -28,13 +28,13 @@ export class DefaultEntityMetaService implements EntityMetaService {
 
   public applyMeta(entity: alt.Entity, metaKey: StreamSyncedMetaType, value: unknown): void {
     switch (entity.type) {
-      case BaseObjectType.PED:
+      case alt.BaseObjectType.Ped:
         this.pedMetaService.applyMeta(entity as alt.Ped, metaKey, value);
         break;
-      case BaseObjectType.PLAYER:
+      case alt.BaseObjectType.Player:
         this.playerMetaService.applyMeta(entity as alt.Player, metaKey, value);
         break;
-      case BaseObjectType.PED:
+      case alt.BaseObjectType.Vehicle:
         this.vehicleMetaService.applyMeta(entity as alt.Vehicle, metaKey, value);
         break;
     }

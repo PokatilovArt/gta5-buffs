@@ -1,6 +1,6 @@
 import { Controller, Inject, On } from '@altv-mango/client';
-import { PlayerService } from '../services/Player.service';
-// import alt from 'alt-client';
+import { PlayerService } from '@client/domain';
+import alt from 'alt-client';
 
 @Controller()
 export class PlayerController {
@@ -12,9 +12,8 @@ export class PlayerController {
   }
 
   @On('playerConnect')
-  public onPlayerConnect(): void {
-    // public onPlayerConnect(player: alt.Player): void {
-    //     alt.log('Player connected');
-    console.log('Player connected');
+  public onPlayerConnect(player: alt.Player): void {
+    alt.log('Player connected');
+    // console.log('Player connected');
   }
 }

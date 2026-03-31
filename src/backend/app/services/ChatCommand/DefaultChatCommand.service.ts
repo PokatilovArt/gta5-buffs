@@ -25,8 +25,18 @@ export class DefaultChatCommandService implements ChatCommandService {
   ) {}
 
   public registerCommands(): void {
+    this.registerSuggestions();
     this.registerBuffCommands();
     this.registerSpawnCommand();
+  }
+
+  private registerSuggestions(): void {
+    // TODO: разобраться, почему не работают
+    vchat.addSuggetionAll({
+      name: 'spawn',
+      description: 'Спавнит рядом педа/машину',
+      parameters: [{ name: 'type', description: 'Тип сущности: ped/vehicle' }],
+    });
   }
 
   private registerBuffCommands(): void {
@@ -46,7 +56,7 @@ export class DefaultChatCommandService implements ChatCommandService {
         try {
           buffChatCommandHandler.execute(player, args);
         } catch (error) {
-          vchat.send(player, error.message);
+          vchat.send(player, (error as Error).message);
         }
       });
     }

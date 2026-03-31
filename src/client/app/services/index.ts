@@ -1,2 +1,4 @@
 export * from './EntityMeta';
-export * from './Player.service';
+export * from './Vehicle';
+export * from './Ped';
+export * from './Player';

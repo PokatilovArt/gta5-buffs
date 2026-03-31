@@ -4,10 +4,10 @@ import {
   BuffHandler as IBuffHandler,
   VehicleRepository,
 } from '@backend/domain';
-import { BaseObjectType, BuffType } from '@common/types';
+import { BaseObjectType, BuffType, StreamSyncedMetaType } from '@common/types';
 import { BuffHandler } from '../../../../decorators';
 import { Inject } from '@altv-mango/core';
-import type { Vehicle } from '@altv/server';
+import * as alt from 'alt-server';
 
 type vehicleId = number;
 interface NitroBoostObject {
@@ -26,13 +26,13 @@ export class VehicleNitroBoostBuffHandler implements IBuffHandler {
   ) {}
 
   public onApply(entity: BuffEntity, stackCount: number): void {
-    if (entity.type !== BaseObjectType.VEHICLE) {
+    if (entity.type !== alt.BaseObjectType.Vehicle) {
       throw new Error(
         `Entity type ${entity.type} is not supported for ${VehicleNitroBoostBuffHandler.name}`,
       );
     }
 
-    const vehicleEntity = entity as unknown as Vehicle;
+    const vehicleEntity = entity as alt.Vehicle;
 
     const existingNitroBoostObject = this.nitroObjectMap.get(entity.id);
     const boostMultiplier = Math.pow(this.nitroEngineMultiplier, stackCount);
@@ -51,7 +51,7 @@ export class VehicleNitroBoostBuffHandler implements IBuffHandler {
   public onRemove(entity: BuffEntity): void {
     if (this.nitroObjectMap.has(entity.id)) {
       this.nitroObjectMap.delete(entity.id);
-      this.removeNitroBoostFromVehicle(entity as unknown as Vehicle);
+      this.removeNitroBoostFromVehicle(entity as alt.Vehicle);
     }
   }
 
@@ -64,7 +64,7 @@ export class VehicleNitroBoostBuffHandler implements IBuffHandler {
     existingNitroBoostObject.nitroBoost =
       existingNitroBoostObject.nitroBoost * Math.pow(this.nitroEngineMultiplier, stackCount);
 
-    this.applyNitroBoostToVehicle(entity as unknown as Vehicle, existingNitroBoostObject);
+    this.applyNitroBoostToVehicle(entity as alt.Vehicle, existingNitroBoostObject);
   }
 
   public onTick(): void {
@@ -77,13 +77,11 @@ export class VehicleNitroBoostBuffHandler implements IBuffHandler {
     }
   }
 
-  private applyNitroBoostToVehicle(vehicle: Vehicle, nitroBoostObject: NitroBoostObject): void {
-    // todo: send event to client
-    // todo: use params as meta
+  private applyNitroBoostToVehicle(vehicle: alt.Vehicle, nitroBoostObject: NitroBoostObject): void {
+    vehicle.setStreamSyncedMeta(StreamSyncedMetaType.Nitro, nitroBoostObject.nitroBoost);
   }
 
-  private removeNitroBoostFromVehicle(vehicle: Vehicle): void {
-    // todo: send event to client
-    // todo: use params as meta
+  private removeNitroBoostFromVehicle(vehicle: alt.Vehicle): void {
+    vehicle.deleteStreamSyncedMeta(StreamSyncedMetaType.Nitro);
   }
 }

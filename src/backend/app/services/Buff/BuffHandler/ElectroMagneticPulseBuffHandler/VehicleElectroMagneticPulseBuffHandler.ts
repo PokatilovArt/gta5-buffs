@@ -1,8 +1,8 @@
 import { BuffEntity, BuffHandler as IBuffHandler, VehicleRepository } from '@backend/domain';
-import { BaseObjectType, BuffType } from '@common/types';
+import { BaseObjectType, BuffType, StreamSyncedMetaType } from '@common/types';
 import { BuffHandler } from '../../../../decorators';
 import { Inject } from '@altv-mango/core';
-import type { Vehicle } from '@altv/server';
+import * as alt from 'alt-server';
 
 type vehicleId = number;
 
@@ -16,20 +16,20 @@ export class VehicleElectroMagneticPulseBuffHandler implements IBuffHandler {
   ) {}
 
   public onApply(entity: BuffEntity, stackCount: number): void {
-    if (entity.type !== BaseObjectType.VEHICLE) {
+    if (entity.type !== alt.BaseObjectType.Vehicle) {
       throw new Error(
         `Entity type ${entity.type} is not supported for ${VehicleElectroMagneticPulseBuffHandler.name}`,
       );
     }
 
     this.electroMagneticPulseEntitiesMap.add(entity.id);
-    this.applyBuffToVehicle(entity as unknown as Vehicle);
+    this.applyBuffToVehicle(entity as alt.Vehicle);
   }
 
   public onRemove(entity: BuffEntity): void {
     if (this.electroMagneticPulseEntitiesMap.has(entity.id)) {
       this.electroMagneticPulseEntitiesMap.delete(entity.id);
-      this.removeBuffFromVehicle(entity as unknown as Vehicle);
+      this.removeBuffFromVehicle(entity as alt.Vehicle);
     }
   }
 
@@ -45,16 +45,19 @@ export class VehicleElectroMagneticPulseBuffHandler implements IBuffHandler {
     }
   }
 
-  private applyBuffToVehicle(vehicle: Vehicle): void {
+  private applyBuffToVehicle(vehicle: alt.Vehicle): void {
     vehicle.engineOn = false;
     vehicle.lightState = 0;
-    // todo: разобраться с радио:
-    //  vehicle.radioStationIndex = 0; или mp.game.audio.setRadioToStationName("OFF"); на клиенте (каждый раз при посадке)
+    vehicle.activeRadioStation = alt.RadioStation.RadioOff;
+
+    vehicle.setStreamSyncedMeta(StreamSyncedMetaType.ElectroMagneticPulse, true);
   }
 
-  private removeBuffFromVehicle(vehicle: Vehicle): void {
+  private removeBuffFromVehicle(vehicle: alt.Vehicle): void {
     vehicle.engineOn = true;
     vehicle.lightState = 1;
-    // todo: разобраться с радио
+    vehicle.activeRadioStation = alt.RadioStation.SoulwaxFm;
+
+    vehicle.deleteStreamSyncedMeta(StreamSyncedMetaType.ElectroMagneticPulse);
   }
 }

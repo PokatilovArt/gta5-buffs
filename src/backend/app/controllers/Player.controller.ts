@@ -9,6 +9,7 @@ export class PlayerController {
   public onServerStarted(): void {
     alt.log('Server started');
   }
+
   @On('playerConnect')
   public onPlayerConnect(player: alt.Player): void {
     alt.log('Player connected');

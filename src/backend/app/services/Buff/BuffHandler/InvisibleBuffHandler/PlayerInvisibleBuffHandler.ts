@@ -2,6 +2,7 @@ import { BuffEntity, BuffHandler as IBuffHandler, PlayerRepository } from '@back
 import { BaseObjectType, BuffType, StreamSyncedMetaType } from '@common/types';
 import { BuffHandler } from '../../../../decorators';
 import { Inject } from '@altv-mango/core';
+import * as alt from 'alt-server';
 
 type playerId = number;
 
@@ -15,7 +16,7 @@ export class PlayerInvisibleBuffHandler implements IBuffHandler {
   ) {}
 
   public onApply(entity: BuffEntity, stackCount: number): void {
-    if (entity.type !== BaseObjectType.PLAYER) {
+    if (entity.type !== alt.BaseObjectType.Player) {
       throw new Error(
         `Entity type ${entity.type} is not supported for ${PlayerInvisibleBuffHandler.name}`,
       );

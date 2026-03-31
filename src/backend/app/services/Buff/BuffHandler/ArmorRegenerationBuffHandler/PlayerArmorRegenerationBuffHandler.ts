@@ -5,9 +5,10 @@ import {
   BuffHandler as IBuffHandler,
   PlayerRepository,
 } from '@backend/domain';
-import { BaseObjectType, BuffType } from '@common/types';
+import { BaseObjectType, BuffType, StreamSyncedMetaType } from '@common/types';
 import { BuffHandler } from '../../../../decorators';
 import { Inject } from '@altv-mango/core';
+import * as alt from 'alt-server';
 
 type playerId = number;
 interface RegenerationObject {
@@ -27,7 +28,7 @@ export class PlayerArmorRegenerationBuffHandler implements IBuffHandler {
   ) {}
 
   public onApply(entity: BuffEntity, stackCount: number): void {
-    if (entity.type !== BaseObjectType.PLAYER) {
+    if (entity.type !== alt.BaseObjectType.Player) {
       throw new Error(
         `Entity type ${entity.type} is not supported for ${PlayerArmorRegenerationBuffHandler.name}`,
       );
@@ -46,10 +47,13 @@ export class PlayerArmorRegenerationBuffHandler implements IBuffHandler {
         regenerateValue: regenerateValue,
       });
     }
+
+    entity.setStreamSyncedMeta(StreamSyncedMetaType.ArmorRegeneration, true);
   }
 
   public onRemove(entity: BuffEntity): void {
     this.regenerationObjectMap.delete(entity.id);
+    entity.deleteStreamSyncedMeta(StreamSyncedMetaType.ArmorRegeneration);
   }
 
   public onStackUpdate(entity: BuffEntity, stackCount: number): void {

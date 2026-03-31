@@ -5,10 +5,10 @@ import {
   BuffHandler as IBuffHandler,
   PlayerRepository,
 } from '@backend/domain';
-import { BaseObjectType, BuffType } from '@common/types';
+import { BaseObjectType, BuffType, StreamSyncedMetaType } from '@common/types';
 import { BuffHandler } from '../../../../decorators';
 import { Inject } from '@altv-mango/core';
-import type { Player } from '@altv/server';
+import * as alt from 'alt-server';
 
 type playerId = number;
 
@@ -24,7 +24,7 @@ export class PlayerBurningBuffHandler implements IBuffHandler {
   ) {}
 
   public onApply(entity: BuffEntity, stackCount: number): void {
-    if (entity.type !== BaseObjectType.PLAYER) {
+    if (entity.type !== alt.BaseObjectType.Player) {
       throw new Error(
         `Entity type ${entity.type} is not supported for ${PlayerBurningBuffHandler.name}`,
       );
@@ -35,13 +35,13 @@ export class PlayerBurningBuffHandler implements IBuffHandler {
       this.burningEntitiesMap.set(entity.id, new Date(Date.now() + this.burningInterval));
     }
 
-    this.applyBuffToPlayer(entity as unknown as Player);
+    this.applyBuffToPlayer(entity as alt.Player);
   }
 
   public onRemove(entity: BuffEntity): void {
     if (this.burningEntitiesMap.has(entity.id)) {
       this.burningEntitiesMap.delete(entity.id);
-      this.removeBuffFromPlayer(entity as unknown as Player);
+      this.removeBuffFromPlayer(entity as alt.Player);
     }
   }
 
@@ -68,11 +68,13 @@ export class PlayerBurningBuffHandler implements IBuffHandler {
     }
   }
 
-  private applyBuffToPlayer(player: Player): void {
+  private applyBuffToPlayer(player: alt.Player): void {
     // todo: запустить анимацию огня
+    player.setStreamSyncedMeta(StreamSyncedMetaType.Burning, true);
   }
 
-  private removeBuffFromPlayer(player: Player): void {
+  private removeBuffFromPlayer(player: alt.Player): void {
     // todo: остановить анимацию огня
+    player.deleteStreamSyncedMeta(StreamSyncedMetaType.Burning);
   }
 }
